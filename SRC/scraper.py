@@ -37,7 +37,7 @@ villes_principales = [
 
 def scrap_annonces(page) :
     url_base = "https://www.paruvendu.fr/immobilier/vente/"
-    url_ville = url_base + f'{villes_principales}/?p={page}'
+    url_ville = url_base + f'{villes_principales}/?p={page}&allp=1'
     response = requests.get(url_ville, headers=headers)
     soup = BeautifulSoup(response.text, "lxml")
 
