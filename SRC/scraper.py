@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import time
 import pickle
 import os
+import pandas as pd
 
 url = "https://www.paruvendu.fr/immobilier/vente/paris-75/?p=1"
 headers = {
@@ -37,27 +38,44 @@ villes_principales = [
 
 def scrap_annonces(page) :
     url_base = "https://www.paruvendu.fr/immobilier/vente/"
-    url_ville = url_base + f'{villes_principales}/?p={page}&allp=1'
+    url_ville = url_base + f'{ville}/?p={page}&allp=1'
     response = requests.get(url_ville, headers=headers)
     soup = BeautifulSoup(response.text, "lxml")
 
     annonces = soup.find_all("div", class_="blocAnnonce")
+
+    result = []
+ 
+    for a in annonces :
+
+        annonce_h3 = a.find("h3")
+        annonce_title = annonce_h3.find("a") if annonce_h3 else None
+        title = annonce_title["title"].strip() if annonce_title and annonce_title.has_attr("title") else None
+
+        description = a.find("p", class_="text-justify").get_text(strip=True) if a.find("p", class_="text-justify") else None
+
+        price_block = a.find("div", class_="encoded-lnk")
+        if price_block :
+            price_tag = price_block.find("div")
+            price = price_tag.get_text(strip=True) if price_tag else None
+        else :
+            price = None
     return annonces
 
-
 def scrap_pages():
+
     all_annonces = []
-    page = 1
-    ville = [0]
-    
-    while True :
-        all_annonces = scrap_annonces(page)
 
-        all_annonces += annonces
-        page += 1
-        time.sleep(0.2)
+    for ville in villes_principales :
+        ville_scrap = scrap_annonces(page)
 
+        all_annonces = all_annonces.append(ville_scrap)
+        dataframe = pd.DataFrame(all_annonces)
     return all_annonces
+
+nimes_scrap = scrap_annonces(nimes)
+
+
 
 if os.path.exists("annonces.pkl"):
     print("Chargement du fichier annonces.pkl (pas de scraping)")
