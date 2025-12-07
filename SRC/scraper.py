@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import time
+import os
 
 
 # CONFIGURATION
@@ -71,11 +72,17 @@ for ville in villes:
 
 # SAUVEGARDE CSV
 
-csv_file = "paruvendu_villes_5pages.csv"
-with open(csv_file, "w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=["Ville", "Titre", "Lien", "Description", "Prix", "Détails"])
-    writer.writeheader()
-    for r in result:
-        writer.writerow(r)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_RAW.csv")
 
-print(f"Fichier CSV créé : {csv_file}")
+try:
+    with open(csv_file, "x", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["Ville", "Titre", "Lien", "Description", "Prix", "Détails"])
+        writer.writeheader()
+        for r in result:
+            writer.writerow(r)
+
+    print(f"Fichier csv créé : {os.path.abspath(csv_file)}")
+
+except FileExistsError:
+    print("Le fichier existe déjà, aucune création effectuée.")
