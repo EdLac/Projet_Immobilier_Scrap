@@ -3,12 +3,6 @@ import re
 import os
 
 # Chargement du CSV
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-#csv_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_RAW.csv")
-
-#print("Chemin utilisé :", os.path.abspath(csv_file))
-#print("Fichier existe ?", os.path.exists(csv_file))
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_RAW.csv")
 

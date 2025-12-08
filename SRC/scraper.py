@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 import csv
 import time
 import os
+import re
 
+headers = {"User-Agent": "Mozilla/5.0"}
 
 # CONFIGURATION
 
-headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 villes = [
     "paris-75", "marseille", "lyon", "toulouse", "nice",
     "nantes", "montpellier", "strasbourg", "bordeaux", "lille",
@@ -51,6 +52,8 @@ for ville in villes:
             else:
                 price = None
 
+            #adresse = get_address_from_annonce(lien) if lien else None
+
             # Pièces, chambres, surface, etc.
             details = []
             detail_tags = a.select("div.flex.flex-wrap.gap-x-3 > *")
@@ -63,6 +66,7 @@ for ville in villes:
                 "Lien": lien,
                 "Description": description,
                 "Prix": price,
+                #"Adresse" : adresse,
                 "Détails": ", ".join(details)
             })
 
