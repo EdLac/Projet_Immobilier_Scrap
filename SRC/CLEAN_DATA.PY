@@ -78,8 +78,27 @@ def extract_surface(title):
 
 df["Surface_m2"] = df["Titre"].apply(extract_surface)
 
+# Type de bien depuis le titre
+df["type"] = df["Titre"].str.split("-").str[0].str.strip()
+
 # CONCAT sans créer de doublons
 df_final = pd.concat([df.drop(columns=["Détails"], errors="ignore"), details_df], axis=1)
+
+
+# PARTIE Cleaning des données
+
+# Transformer quelques types de biens
+df["type"] = df["type"].str.replace("loft", "appartement", case=False)
+df["type"] = df["type"].str.replace("villa", "maison", case=False)
+df["type"] = df["type"].str.replace("Duplex/triplex", "appartement", case=False)
+
+
+#Liste des types à exclure (outliers)
+types_a_exclure = [
+    "terrain", "hotel", "hôtel", "peniche", "péniche", "garage", "boutique",
+    "commerce", "bureau", "immeuble", "chateau", "château", "grange",
+    "hangar", "parking", "box","ferme","plateau"
+]
 
 clean_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_CLEAN.csv")
 
