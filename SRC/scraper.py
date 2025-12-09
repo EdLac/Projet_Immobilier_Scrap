@@ -61,6 +61,8 @@ for ville in villes:
                 soup_loc = BeautifulSoup(detail.text, "lxml")
                 loc_tag = soup_loc.find("span", id="detail_loc")
                 if loc_tag :
+                    loc_tag = soup_loc.find("span", class_="ttldetail_loch1")
+                if loc_tag :
                     localisation = loc_tag.get_text(strip=True)
 
             # Pièces, chambres, surface, etc.
