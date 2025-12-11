@@ -1,6 +1,8 @@
 import pandas as pd
 import re
 import os
+from geopy.geocoders import Nominatim
+from time import sleep
 
 # Chargement du CSV
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -99,6 +101,58 @@ types_a_exclure = [
     "commerce", "bureau", "immeuble", "chateau", "château", "grange",
     "hangar", "parking", "box","ferme","plateau"
 ]
+
+print("Début du géocodage des localisations...")
+
+geolocator = Nominatim(user_agent="projet_immo_sorbonne", timeout=5)
+
+def geocode_loc (loc) :
+    if not isinstance(loc, str) or loc.strip() == "" :
+        return None, None
+    
+    query = loc + ", France"
+
+    for attempt in range(3):
+        try:
+            location = geolocator.geocode(query, timeout=5)  # ❤️ timeout augmenté
+            if location:
+                return location.latitude, location.longitude
+            else:
+                return None, None
+        except Exception as e:
+            print(f"Tentative {attempt+1}/3 échouée pour '{loc}' -> {e}")
+            sleep(1)  # courte pause avant retry
+
+    return None, None
+
+geo_cache = {}
+longitude = []
+latitude = []
+
+loc_series = df_final["Localisation"] if "Localisation" in df_final.columns else df["Localisation"]
+
+for i, loc in enumerate(loc_series):
+    loc_str = "" if pd.isna(loc) else str(loc).strip()
+
+    if loc_str == "":
+        latitude.append(None)
+        longitude.append(None)
+        continue
+
+    if loc_str in geo_cache:
+        lat, lon = geo_cache[loc_str]
+    else:
+        lat, lon = geocode_loc(loc_str)
+        geo_cache[loc_str] = (lat, lon)
+        # petit log
+        print(f"{i+1}/{len(loc_series)} | {loc_str} -> {lat}, {lon}")
+        sleep(1)  # respecter Nominatim
+
+    latitude.append(lat)
+    longitude.append(lon)
+
+df_final["Latitude"] = latitude
+df_final["Longitude"] = longitude
 
 clean_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_CLEAN.csv")
 
