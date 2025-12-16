@@ -2,8 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import os
 
-df = pd.read_csv("/Users/edouardlacroix/Desktop/DU Data Analytics/COURS/Python Avance/Projet/Projet_Immobilier/Projet_Immobilier_Scrap/DATA/ANNONCES_CLEAN.CSV")
+# Créer le chemin relatif depuis le fichier Python
+base_dir = os.path.dirname(os.path.abspath(__file__))  # dossier SRC
+csv_path = os.path.join(base_dir, "..", "DATA", "ANNONCES_CLEAN.CSV")
+
+# Charger le CSV
+df = pd.read_csv(csv_path)
 print(df.head())
 
 #Graphique Prix m2 (median) par ville
