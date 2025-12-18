@@ -16,6 +16,7 @@ print("Fichier existe ?", os.path.exists(csv_file))
 
 df = pd.read_csv(csv_file)
 
+# Standardisation des villes
 df["Ville"] = (df["Ville"]
     .str.replace(r"-\d+$", "", regex=True)   # enlève -75 si présent
     .str.replace("-", " ")
