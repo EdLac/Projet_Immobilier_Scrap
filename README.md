@@ -90,7 +90,7 @@ Projet_Immobilier_Scrap/
 ├── ANALYSE.py                     # Analyse statistique standalone
 ├── Rapport-Python-Avance.pdf      # Rapport final
 └── README.md
-
+```
 
 ## 🔐 Stratégie de scraping & anti-bot
 
