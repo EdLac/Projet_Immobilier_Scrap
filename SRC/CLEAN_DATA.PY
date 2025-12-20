@@ -23,6 +23,8 @@ df["Ville"] = (df["Ville"]
     .str.title()
 )
 
+print("Après normalisation :", df["Ville"].value_counts().head(10))
+
 # Nettoyage Détails
 df["Détails"] = df["Détails"].astype(str).str.replace("\n"," ").str.replace("\xa0"," ")
 df["Description"] = df["Description"].astype(str)\
@@ -126,7 +128,7 @@ types_a_exclure = [
 # Filtrer les types indésirables
 df_final = df_final[~df_final["type"].str.lower().isin([t.lower() for t in types_a_exclure])]
 
-RUN_GEOCODING = False
+RUN_GEOCODING = True
 
 if RUN_GEOCODING:
     print("Début du géocodage des localisations...")
@@ -184,6 +186,9 @@ if RUN_GEOCODING:
 df_final = df_final[(df_final["Prix_m2"] >= 500) & (df_final["Prix_m2"] <= 20000)]
 
 # Filtrer les outliers avec l'IQR
+
+print("Avant IQR :", (df_final["Ville"] == "Paris").sum())
+
 def remove_outliers_iqr(df_final, col):
     Q1 = df_final[col].quantile(0.25)
     Q3 = df_final[col].quantile(0.75)
@@ -192,8 +197,13 @@ def remove_outliers_iqr(df_final, col):
     upper_bound = Q3 + 1.5 * IQR
     return df_final[(df_final[col] >= lower_bound) & (df_final[col] <= upper_bound)]
 
-df_final = remove_outliers_iqr(df_final, "Prix_m2")
-df_final = remove_outliers_iqr(df_final, "Prix_de_vente")
+df_final = (
+    df_final
+    .groupby("Ville", group_keys=False)
+    .apply(lambda x: remove_outliers_iqr(x, "Prix_m2"))
+)
+
+print("Après IQR Prix_m2 :", (df_final["Ville"] == "Paris").sum())
 
 # Sauvegarde CSV propre 
 df_final.to_csv(clean_csv_file, index=False, encoding="utf-8")

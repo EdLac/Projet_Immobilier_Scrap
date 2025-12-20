@@ -46,6 +46,11 @@ def load_data():
 
 df = load_data()
 
+df.columns = (
+    df.columns
+    .str.strip()
+    .str.lower()
+)
 
 # Hero Header
 
@@ -106,10 +111,13 @@ col1, col2, col3, col4 = st.columns(4)
 
 col1.metric("Annonces", f"{len(df):,}")
 col2.metric("Villes", df["ville"].nunique())
-col3.metric("Prix médian", f"{int(df['prix_de_vente'].median()):,} €")
-col4.metric("Surface médiane", f"{int(df['surface_m2'].median())} m²")
+col3.metric("Nombre de variables",(df.shape[1]))
+col4.metric("Prix m2 médian", f"{df['prix_m2'].median():,.0f} €")
 
 st.markdown("""
-**Source des données** : ParuVendu.fr  
+**Source des données** : [ParuVendu.fr](https://www.paruvendu.fr/immobilier/)  
 **Méthode** : Web scraping, nettoyage et analyse exploratoire
 """)
+
+with st.expander("📂 Voir la base de données"):
+    st.dataframe(df)
