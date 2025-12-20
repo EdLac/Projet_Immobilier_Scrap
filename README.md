@@ -69,6 +69,7 @@ Pour répondre à cette question, l’analyse se concentre sur **20 grandes vill
 
 ## 🧱 Architecture du projet
 
+```text
 Projet_Immobilier_Scrap/
 │
 ├── SRC/
@@ -90,7 +91,6 @@ Projet_Immobilier_Scrap/
 ├── Rapport-Python-Avance.pdf      # Rapport final
 └── README.md
 
----
 
 ## 🔐 Stratégie de scraping & anti-bot
 
