@@ -69,16 +69,16 @@ Pour répondre à cette question, l’analyse se concentre sur **20 grandes vill
 
 ## 🧱 Architecture du projet
 
-Projet_Immobilier_Scrap/
-│
-├── SRC/
-│   ├── app.py                     # App Streamlit principale
-│   ├── theme.py                   # Thème graphique (néon)
-│   ├── scraper.py                 # Scraping + gestion anti-bot
-│   └── pages/
-│       ├── 1_🏠_Accueil.py
-│       ├── 2_🛠️_Methodologie.py
-│       └── 3_📊_Analyse.py
+Projet_Immobilier_Scrap/  
+│  
+├── SRC/  
+│   ├── app.py                       # App Streamlit principale
+│   ├── theme.py                     # Thème graphique (néon)
+│   ├── scraper.py                   # Scraping + gestion anti-bot
+│   └── pages/  
+│       ├── 1_🏠_Accueil.py  
+│       ├── 2_🛠️_Methodologie.py  
+│       └── 3_📊_Analyse.py  
 │
 ├── DATA/
 │   ├── ANNONCES_RAW.csv           # Données brutes scrappées
