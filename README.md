@@ -21,7 +21,7 @@ Le projet s’adresse à la fois :
 
 > **Comment le prix au mètre carré varie-t-il en fonction de la localisation, de la surface et du type de biens immobiliers en France ?**
 
-Pour répondre à cette question, l’analyse se concentre sur **18 grandes villes françaises**, choisies pour leur représentativité et leur dynamisme immobilier.
+Pour répondre à cette question, l’analyse se concentre sur **20 grandes villes françaises**, choisies pour leur représentativité et leur dynamisme immobilier.
 
 ---
 
