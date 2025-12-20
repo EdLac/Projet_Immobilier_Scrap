@@ -70,25 +70,30 @@ Pour répondre à cette question, l’analyse se concentre sur **20 grandes vill
 ## 🧱 Architecture du projet
 
 ```text
-Projet_Immobilier_Scrap/
+PROJET_IMMOBILIER_SCRAP/
+│
+├── DATA/
+│   ├── ANNONCES_RAW.csv           # Données brutes issues du scraping
+│   └── ANNONCES_CLEAN.csv         # Données nettoyées et enrichies
+│
+├── NOTEBOOKS/
+│   └── EXPLORATION.ipynb          # Analyse exploratoire (EDA)
+│
+├── RAPPORT/
+│   └── Rapport-Python-Avance.pdf  # Rapport académique final
 │
 ├── SRC/
-│   ├── app.py                     # App Streamlit principale
-│   ├── theme.py                   # Thème graphique (néon)
-│   ├── scraper.py                 # Scraping + gestion anti-bot
+│   ├── app.py                    # Application Streamlit principale
+│   ├── theme.py                  # Thème graphique (néon)
+│   ├── scraper.py                # Scraping + gestion anti-bot / CAPTCHA
+│   ├── CLEAN_DATA.py             # Script de nettoyage des données
+│   ├── ANALYSE.py                # Analyse statistique standalone
 │   └── pages/
 │       ├── 1_🏠_Accueil.py
 │       ├── 2_🛠️_Methodologie.py
 │       └── 3_📊_Analyse.py
 │
-├── DATA/
-│   ├── ANNONCES_RAW.csv           # Données brutes scrappées
-│   └── ANNONCES_CLEAN.csv         # Données nettoyées
-│
-├── checkpoint.json                # Sauvegarde de l’état du scraping
-├── EXPLORATION.ipynb              # Analyses exploratoires
-├── ANALYSE.py                     # Analyse statistique standalone
-├── Rapport-Python-Avance.pdf      # Rapport final
+├── checkpoint.json               # Sauvegarde de l’état du scraping
 └── README.md
 ```
 
