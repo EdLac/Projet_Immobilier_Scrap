@@ -4,7 +4,7 @@
 ## 📌 Contexte du projet
 
 Ce projet s’inscrit dans le cadre de la formation **DU Data Analytics**.  
-Il a été réalisé en **binôme (Edouard & Yves)** avec pour objectif pédagogique de :
+Il a été réalisé en **binôme (Edouard & Élise)** avec pour objectif pédagogique de :
 
 - découvrir et maîtriser le **web scraping**,
 - nettoyer et structurer des données réelles,
