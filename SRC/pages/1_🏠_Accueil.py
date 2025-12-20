@@ -1,41 +1,17 @@
 import streamlit as st
 import pandas as pd
 import os
+from theme import load_css, load_matplotlib_theme
 
-# Configuration de la page
+# ------------------------------------------------------------
+# THEME GLOBAL
+# ------------------------------------------------------------
+load_css()
+load_matplotlib_theme()
 
-st.set_page_config(page_title="Dashboard Immobilier", layout="wide")
-
-# Style professionnel
-st.markdown(
-    """
-    <style>
-    /* Fond général */
-    .stApp { background-color: #0E1117; color: #E6EDF3; }
-
-    /* Titres et textes */
-    h1, h2, h3, h4, p, span, label { color: #E6EDF3; }
-
-    /* Sidebar */
-    section[data-testid="stSidebar"] { background-color: #161B22; }
-
-    /* Boutons */
-    button { background-color: #4F8BF9 !important; color: white !important; border-radius: 8px; }
-
-    /* Sliders */
-    .stSlider > div > div { color: #4F8BF9; }
-
-    /* Encadrés */
-    .problem-card { background: linear-gradient(135deg, #0F3D91, #0B2A5B); padding: 26px; border-radius: 16px; border-left: 6px solid #60A5FA; box-shadow: 0 10px 30px rgba(0,0,0,0.45); margin-bottom: 32px; }
-    .problem-card h3 { color: #FFFFFF; margin-top: 0; font-weight: 600; }
-    .problem-card p { color: #E5EDFF; font-size: 15px; line-height: 1.7; }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Chargement des données
-
+# ------------------------------------------------------------
+# LOAD DATA
+# ------------------------------------------------------------
 @st.cache_data
 def load_data():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -46,78 +22,69 @@ def load_data():
 
 df = load_data()
 
-df.columns = (
-    df.columns
-    .str.strip()
-    .str.lower()
-)
-
-# Hero Header
-
+# ------------------------------------------------------------
+# HERO HEADER
+# ------------------------------------------------------------
 st.markdown(
-    """
-    <div style="margin-bottom:24px;">
-        <h1 style="margin-bottom:4px;">🏠 Dashboard Immobilier Interactif</h1>
-        <p style="font-size:16px; color:#9BA3AF;">
-            Cette application interactive vise à explorer les relations entre les caractéristiques des biens immobiliers et leurs prix de vente, à travers une analyse exploratoire des données.
+    """<div style="margin-bottom:32px;">
+        <h1 style="margin-bottom:6px;">🏠 Dashboard Immobilier Interactif</h1>
+        <p style="font-size:16px; color:#94a3b8;">
+            Cette application interactive vise à explorer les relations entre les
+            caractéristiques des biens immobiliers et leurs prix de vente,
+            à travers une analyse exploratoire des données.
         </p>
-    </div>
-    """,
+    </div>""",
     unsafe_allow_html=True
 )
 
-# Problématique
-
-st.markdown(
-"""
+# ------------------------------------------------------------
+# PROBLÉMATIQUE — CARTE NÉON (PLEINE LARGEUR)
+# ------------------------------------------------------------
+st.markdown("""
 <div class="problem-card">
 <h3>🎯 Problématique</h3>
 
 <p>
 Comment les caractéristiques d’un bien immobilier
-(surface, localisation, nombre de pièces, options, DPE)
-influencent-elles le prix de vente et le prix au m² ?
+(<strong>surface</strong>, <strong>localisation</strong>,
+<strong>nombre de pièces</strong>, <strong>options</strong>,
+<strong>DPE</strong>)
+influencent-elles le <strong>prix de vente</strong>
+et le <strong>prix au m²</strong> ?
 </p>
 
-<div style="margin-top:16px;">
-<h4 style="margin-bottom:6px;">📍 Périmètre de l’étude</h4>
+<h3 style="margin-top:16px;">📍 Périmètre de l’étude</h3>
 
-<p style="color:#E5EDFF; font-size:14px; line-height:1.6;">
+<p>
 Dans le cadre de cette analyse, nous avons choisi de nous concentrer sur les
 <strong>18 principales villes françaises</strong>.
-Ce choix méthodologique permet de réduire la complexité de l’étude tout en
-conservant un niveau de représentativité élevé du marché immobilier français.
 </p>
 
-<p style="color:#E5EDFF; font-size:14px; line-height:1.6;">
+<p>
 Les grandes villes concentrent un volume important de transactions,
 une forte diversité de biens et des dynamiques de prix plus stables et comparables.
-À l’inverse, l’intégration de l’ensemble du territoire, notamment des petites villes
-et zones rurales, aurait introduit une forte hétérogénéité des marchés,
-rendant l’analyse plus complexe et moins lisible dans le cadre de ce projet.
 </p>
 </div>
-</div>
-""",
-unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 
-# Résumé du jeu de données
-
+# ------------------------------------------------------------
+# DATASET SUMMARY
+# ------------------------------------------------------------
 st.markdown("### 📊 Résumé du jeu de données")
 
 col1, col2, col3, col4 = st.columns(4)
-
 col1.metric("Annonces", f"{len(df):,}")
 col2.metric("Villes", df["ville"].nunique())
-col3.metric("Nombre de variables",(df.shape[1]))
-col4.metric("Prix m2 médian", f"{df['prix_m2'].median():,.0f} €")
+col3.metric("Variables", df.shape[1])
+col4.metric("Prix m² médian", f"{df['prix_m2'].median():,.0f} €")
 
-st.markdown("""
+st.markdown(
+"""
 **Source des données** : [ParuVendu.fr](https://www.paruvendu.fr/immobilier/)  
 **Méthode** : Web scraping, nettoyage et analyse exploratoire
-""")
+"""
+)
 
 with st.expander("📂 Voir la base de données"):
     st.dataframe(df)
