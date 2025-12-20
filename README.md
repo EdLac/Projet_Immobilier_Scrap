@@ -72,23 +72,24 @@ Pour répondre à cette question, l’analyse se concentre sur **20 grandes vill
 Projet_Immobilier_Scrap/
 │
 ├── SRC/
-│ ├── app.py # App Streamlit principale
-│ ├── theme.py # Thème graphique (néon)
-│ ├── scraper.py # Scraping + gestion anti-bot
-│ ├── pages/
-│ │ ├── 1_🏠_Accueil.py
-│ │ ├── 2_🛠️_Methodologie.py
-│ │ └── 3_📊_Analyse.py
+│   ├── app.py                     # App Streamlit principale
+│   ├── theme.py                   # Thème graphique (néon)
+│   ├── scraper.py                 # Scraping + gestion anti-bot
+│   └── pages/
+│       ├── 1_🏠_Accueil.py
+│       ├── 2_🛠️_Methodologie.py
+│       └── 3_📊_Analyse.py
 │
 ├── DATA/
-│ ├── ANNONCES_RAW.csv # Données brutes scrappées
-│ ├── ANNONCES_CLEAN.csv # Données nettoyées
+│   ├── ANNONCES_RAW.csv           # Données brutes scrappées
+│   └── ANNONCES_CLEAN.csv         # Données nettoyées
 │
-├── checkpoint.json # Sauvegarde de l’état du scraping
-├── EXPLORATION.ipynb # Analyses exploratoires
-├── ANALYSE.py # Analyse statistique standalone
-├── Rapport-Python-Avance.pdf # Rapport final
+├── checkpoint.json                # Sauvegarde de l’état du scraping
+├── EXPLORATION.ipynb              # Analyses exploratoires
+├── ANALYSE.py                     # Analyse statistique standalone
+├── Rapport-Python-Avance.pdf      # Rapport final
 └── README.md
+
 
 
 ---
@@ -151,7 +152,7 @@ Lancer le dashboard Streamlit
 
 👥 Auteurs
 
-Edouard
+Edouard  
 Élise
 
 Projet réalisé en binôme dans le cadre du DU Data Analytics.
