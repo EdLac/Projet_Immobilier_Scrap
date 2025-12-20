@@ -30,7 +30,7 @@ Pour répondre à cette question, l’analyse se concentre sur **20 grandes vill
 - **Site scrappé** : [ParuVendu.fr](https://www.paruvendu.fr/immobilier/)
 - **Type de données** : annonces immobilières de vente
 - **Périmètre** :
-  - 18 grandes villes françaises
+  - 20 grandes villes françaises
   - 5 premières pages de résultats par ville
   - > 2 000 annonces finales exploitables
 
