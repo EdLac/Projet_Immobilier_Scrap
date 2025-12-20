@@ -99,10 +99,10 @@ def extract_surface(title):
 df["Surface_m2"] = df["Titre"].apply(extract_surface)
 
 # Type de bien depuis le titre
-df["type"] = df["Titre"].str.split("-").str[0].str.strip()
-df["type"] = df["type"].str.replace("loft", "Appartement", case=False)
-df["type"] = df["type"].str.replace("villa", "Maison", case=False)
-df["type"] = df["type"].str.replace("Duplex/triplex", "Appartement", case=False)
+df["Type"] = df["Titre"].str.split("-").str[0].str.strip()
+df["Type"] = df["Type"].str.replace("loft", "Appartement", case=False)
+df["Type"] = df["Type"].str.replace("villa", "Maison", case=False)
+df["Type"] = df["Type"].str.replace("Duplex/triplex", "Appartement", case=False)
 
 # CONCAT sans créer de doublons
 df_final = pd.concat([df.drop(columns=["Détails"], errors="ignore"), details_df], axis=1)
@@ -126,7 +126,7 @@ types_a_exclure = [
 ]
 
 # Filtrer les types indésirables
-df_final = df_final[~df_final["type"].str.lower().isin([t.lower() for t in types_a_exclure])]
+df_final = df_final[~df_final["Type"].str.lower().isin([t.lower() for t in types_a_exclure])]
 
 RUN_GEOCODING = True
 

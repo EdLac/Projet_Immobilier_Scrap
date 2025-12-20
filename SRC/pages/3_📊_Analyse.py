@@ -34,7 +34,7 @@ def init_state(_df: pd.DataFrame):
     """Initialize ALL widget keys with safe defaults (range sliders as tuples)."""
     villes_all = sorted(_df["ville"].dropna().unique().tolist())
     pieces_all = sorted(_df["pieces"].dropna().unique().tolist())
-    types_all = sorted(_df["type"].dropna().unique().tolist())
+    types_all = sorted(_df["Type"].dropna().unique().tolist())
     dpe_all = sorted(_df["dpe"].dropna().unique().tolist())
 
     min_s = int(_df["surface_m2"].min())
@@ -46,7 +46,7 @@ def init_state(_df: pd.DataFrame):
     st.session_state["surface"] = (min_s, max_s)   # ✅ RANGE SLIDER
     st.session_state["prix"] = (min_p, max_p)      # ✅ RANGE SLIDER
     st.session_state["pieces"] = pieces_all
-    st.session_state["types"] = types_all
+    st.session_state["Types"] = types_all
     st.session_state["dpe"] = dpe_all
 
     st.session_state["garage"] = False
@@ -87,7 +87,7 @@ prix_state = st.session_state.get("prix")
 if not (isinstance(prix_state, (tuple, list)) and len(prix_state) == 2):
     st.session_state["prix"] = (min_p, max_p)
 
-for k in ["villes", "pieces", "types", "dpe"]:
+for k in ["villes", "pieces", "Types", "dpe"]:
     if not isinstance(st.session_state.get(k), list):
         st.session_state[k] = list(st.session_state.get(k, []))
 
@@ -140,8 +140,8 @@ pieces = st.sidebar.multiselect(
 
 types_bien = st.sidebar.multiselect(
     "Type de bien",
-    options=sorted(df["type"].dropna().unique()),
-    key="types",
+    options=sorted(df["Type"].dropna().unique()),
+    key="Types",
 )
 
 dpe_selected = st.sidebar.multiselect(
@@ -171,7 +171,7 @@ if pieces:
     df_filtre = df_filtre[df_filtre["pieces"].isin(pieces)]
 
 if types_bien:
-    df_filtre = df_filtre[df_filtre["type"].isin(types_bien)]
+    df_filtre = df_filtre[df_filtre["Type"].isin(types_bien)]
 
 if dpe_selected:
     df_filtre = df_filtre[df_filtre["dpe"].isin(dpe_selected)]
@@ -188,10 +188,10 @@ if ascenseur_filter:
 # ------------------------------------------------------------
 st.subheader("📌 Indicateurs clés par type de bien")
 
-types_for_kpi = types_bien if types_bien else sorted(df_filtre["type"].dropna().unique())
+types_for_kpi = types_bien if types_bien else sorted(df_filtre["Type"].dropna().unique())
 
 for t in types_for_kpi:
-    df_type = df_filtre[df_filtre["type"] == t]
+    df_type = df_filtre[df_filtre["Type"] == t]
     if df_type.empty:
         continue
 
@@ -265,7 +265,7 @@ with tab2:
         data=df_filtre,
         x="surface_m2",
         y="prix_de_vente",
-        hue="type",
+        hue="Type",
         alpha=0.6,
         ax=ax
     )
@@ -307,7 +307,7 @@ with tab4:
     r1c1, r1c2 = st.columns(2)
     with r1c1:
         fig, ax = plt.subplots(figsize=(6, 4))
-        sns.boxplot(data=df_filtre, x="type", y="prix_m2", ax=ax)
+        sns.boxplot(data=df_filtre, x="Type", y="prix_m2", ax=ax)
         ax.set_title("Type de bien")
         st.pyplot(fig, use_container_width=True)
         plt.close(fig)
