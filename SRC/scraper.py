@@ -6,7 +6,7 @@ import os
 import re
 import json
 
-# ================== CONFIG GÉNÉRALE ==================
+# CONFIG GÉNÉRALE
 
 headers = {
     "User-Agent": "Mozilla/5.0",
@@ -20,12 +20,12 @@ villes = [
     "grenoble", "dijon", "angers", "nimes", "clermont-ferrand"
 ]
 
-nb_pages = 5  # tu peux réduire si besoin
+nb_pages = 5  
 url_base = "https://www.paruvendu.fr/immobilier/vente/"
 MAX_ANNONCES_PAR_RUN = 1000          # limite de sécurité par exécution
 CHECKPOINT_FILE = "checkpoint.json"
 
-# ================== CHEMIN CSV & CHARGEMENT EXISTANT ==================
+# CHEMIN CSV  
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_file = os.path.join(BASE_DIR, "..", "DATA", "ANNONCES_RAW.csv")
@@ -47,7 +47,7 @@ else:
 scraped_rows = []
 
 
-# ================== OUTILS CHECKPOINT ==================
+#  OUTILS CHECKPOINT 
 
 
 def load_checkpoint():
@@ -72,7 +72,7 @@ def save_checkpoint(ville_index, page):
         json.dump(data, f)
 
 
-# ================== DÉTECTION CAPTCHA ==================
+# DÉTECTION CAPTCHA
 
 
 def is_captcha(html: str) -> bool:
@@ -83,12 +83,12 @@ def is_captcha(html: str) -> bool:
     )
 
 
-# ================== SESSION HTTP ==================
+# SESSION HTTP 
 
 session = requests.Session()
 session.headers.update(headers)
 
-# ================== SCRAPING ==================
+# SCRAPING 
 
 checkpoint = load_checkpoint()
 start_ville_index = checkpoint["ville_index"]
@@ -153,7 +153,7 @@ for i_ville, ville in enumerate(villes):
                 stop_scraping = True
                 break
 
-            # ---------- Titre + lien depuis la LISTE ----------
+            #  Titre + lien depuis la LISTE 
             annonce_h3 = a.find("h3")
             if not annonce_h3:
                 continue
@@ -165,15 +165,15 @@ for i_ville, ville in enumerate(villes):
             title = annonce_title.get("title", "").strip()
             lien = "https://www.paruvendu.fr" + annonce_title["href"]
 
-            # ---------- Description courte ----------
+            # Description
             description_tag = a.find("p", class_="text-justify")
             description = description_tag.get_text(strip=True) if description_tag else ""
 
-            # ---------- Prix ----------
+            # Prix 
             price_tag = a.find("div", class_="encoded-lnk")
             price = price_tag.get_text(strip=True) if price_tag else ""
 
-            # ---------- LOCALISATION SUR PAGE DÉTAIL ----------
+            # LOCALISATION SUR PAGE DÉTAIL
             localisation = ""
 
             try:
@@ -194,7 +194,7 @@ for i_ville, ville in enumerate(villes):
             # 1. id=detail_loc (cas normal)
             loc_tag = soup_loc.find("span", id="detail_loc")
 
-            # 2. fallback : classe (selon ton HTML)
+            # 2. fallback : classe (selon HTML)
             if not loc_tag:
                 loc_tag = soup_loc.find("span", class_="ttldetail_loc1h")
             if not loc_tag:
@@ -208,7 +208,7 @@ for i_ville, ville in enumerate(villes):
             # on ralentit un peu les requêtes DETAIL
             time.sleep(1)
 
-            # ---------- Détails (pièces, surface, etc.) depuis la LISTE ----------
+            #  Détails (pièces, surface, etc.) depuis la LISTE
             details = []
             for df in a.select("div.flex.flex-wrap.gap-x-3 > *"):
                 details.append(df.get_text(strip=True))
@@ -231,7 +231,7 @@ for i_ville, ville in enumerate(villes):
         # pause entre pages de résultats
         time.sleep(2)
 
-# ================== FUSION ANCIEN + NOUVEAU & SAUVEGARDE ==================
+# FUSION ANCIEN + NOUVEAU & SAUVEGARDE
 
 print(f"\nAnnonces récupérées sur ce run : {len(scraped_rows)}")
 
