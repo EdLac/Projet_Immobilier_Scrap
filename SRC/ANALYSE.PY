@@ -10,7 +10,6 @@ import seaborn as sns
 import os
 import matplotlib
 
-# ⚠️ utile sur macOS si problème d’affichage
 matplotlib.use("TkAgg")
 
 # =====================================
@@ -35,6 +34,7 @@ print("Nombre de villes :", df["Ville"].nunique())
 print("Prix médian :", int(df["Prix_de_vente"].median()), "€")
 print("Prix au m² médian :", int(df["Prix_m2"].median()), "€")
 print("Surface médiane :", int(df["Surface_m2"].median()), "m²")
+print("Prix au m² moyen :", int(df["Prix_m2"].mean()), "€")
 
 # =====================================
 # DISTRIBUTION DES PRIX
@@ -139,7 +139,7 @@ sns.barplot(
     errorbar=None
 )
 plt.xticks(rotation=45, ha="right")
-plt.title("Prix médian au m² par ville")
+plt.title("Répartition du prix au m² par grandes zones urbaines (proxy régional)")
 plt.ylabel("Prix au m² (€)")
 plt.tight_layout()
 plt.show()
